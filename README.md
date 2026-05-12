@@ -1,65 +1,94 @@
-# SkillWeaver - AI Resume Analyzer
+# SkillWeaver – AI Resume Analyzer for Role-Based Career Matching
 
-A Django web application that analyzes resumes against job descriptions using Natural Language Processing (NLP) and Machine Learning techniques to help job seekers improve their chances of landing interviews.
+SkillWeaver is a Django-based AI-powered web application that analyzes resumes and evaluates them against a selected job role instead of requiring a job description (JD). The system uses Natural Language Processing (NLP) and Machine Learning techniques to identify relevant skills, calculate a role-based match score, and provide personalized improvement suggestions for users.
 
 ---
 
 ## Features
 
-- Upload and parse resume content (PDF/DOCX)
-- Match resume against a job description using **TF-IDF** and **Cosine Similarity**
-- Generate a **skill match score** showing how relevant the resume is
-- Provide **improvement suggestions** based on missing keywords and skills
-- Clean and intuitive web interface built with Django
+* Upload and parse resumes (PDF/DOCX)
+* Analyze resumes based on a selected job role
+* Role-specific skill matching using NLP techniques
+* Generate an AI-based resume match score
+* Identify missing skills required for the selected role
+* Provide improvement suggestions to strengthen the resume
+* Clean and responsive web interface built with Django
+* Supports multiple predefined technical roles
+
+---
+
+## Supported Roles
+
+SkillWeaver can analyze resumes for roles such as:
+
+* Data Scientist
+* Data Analyst
+* Python Developer
+* Web Developer
+* Machine Learning Engineer
+* Frontend Developer
+* Backend Developer
+* Full Stack Developer
+
+The system compares the uploaded resume with predefined skill sets for each role and calculates compatibility.
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Backend | Python, Django |
-| NLP / ML | Scikit-learn (TF-IDF, Cosine Similarity) |
-| Text Processing | NLTK / SpaCy |
-| Frontend | HTML, CSS, Django Templates |
-| Database | SQLite (default Django DB) |
+| Layer           | Technology                               |
+| --------------- | ---------------------------------------- |
+| Backend         | Python, Django                           |
+| NLP / ML        | Scikit-learn (TF-IDF, Cosine Similarity) |
+| Text Processing | NLTK / SpaCy                             |
+| Frontend        | HTML, CSS, Django Templates              |
+| Database        | SQLite (Default Django DB)               |
+| File Processing | PyPDF2, python-docx                      |
 
 ---
 
 ## How It Works
 
-1. User uploads their **resume** and pastes a **job description**
-2. Text is extracted and preprocessed (tokenization, stopword removal, stemming)
-3. Both texts are vectorized using **TF-IDF (Term Frequency-Inverse Document Frequency)**
-4. **Cosine Similarity** is calculated between the two vectors to produce a match score
-5. Missing keywords from the job description are identified and shown as suggestions
+1. User uploads their resume (PDF/DOCX)
+2. User selects a target job role
+3. Resume text is extracted and preprocessed
+
+   * Tokenization
+   * Stopword removal
+   * Text normalization
+4. The system compares resume content with predefined role-specific skill datasets
+5. TF-IDF vectorization converts text into numerical vectors
+6. Cosine Similarity calculates the similarity score
+7. Missing skills and improvement suggestions are generated
+8. Final role compatibility score is displayed to the user
 
 ---
 
 ## Project Structure
 
-```
-ai_resume_analyzer/
+```bash
+skillweaver/
 │
 ├── manage.py
 ├── requirements.txt
 │
-├── ai_resume_analyzer/        # Project settings
+├── skillweaver/               # Project settings
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 │
-├── analyzer/                  # Main app
+├── analyzer/                  # Main application
 │   ├── models.py
 │   ├── views.py
 │   ├── urls.py
-│   ├── ml/                    # ML logic
+│   ├── ml/                    # ML and NLP logic
 │   │   └── similarity.py
 │   └── templates/
 │       └── analyzer/
 │           └── index.html
 │
-└── static/                    # CSS, JS files
+├── static/                    # CSS and JS files
+└── media/                     # Uploaded resumes
 ```
 
 ---
@@ -68,61 +97,80 @@ ai_resume_analyzer/
 
 ### Prerequisites
 
-- Python 3.8+
-- pip
+* Python 3.8+
+* pip
 
-### Installation
+---
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ai-resume-analyzer.git
-   cd ai-resume-analyzer
-   ```
+## Installation
 
-2. **Create and activate a virtual environment**
-   ```bash
-   python -m venv venv
+### 1. Clone the Repository
 
-   # Windows
-   venv\Scripts\activate
+```bash
+git clone https://github.com/santhi1701/skillweaver.git
+cd skillweaver
+```
 
-   # macOS/Linux
-   source venv/bin/activate
-   ```
+### 2. Create and Activate Virtual Environment
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+python -m venv venv
+```
 
-4. **Apply migrations**
-   ```bash
-   python manage.py migrate
-   ```
+#### Windows
 
-5. **Run the development server**
-   ```bash
-   python manage.py runserver
-   ```
+```bash
+venv\Scripts\activate
+```
 
-6. Open your browser and go to `http://127.0.0.1:8000`
+#### macOS/Linux
+
+```bash
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Apply Migrations
+
+```bash
+python manage.py migrate
+```
+
+### 5. Run the Development Server
+
+```bash
+python manage.py runserver
+```
+
+### 6. Open in Browser
+
+```bash
+http://127.0.0.1:8000
+```
 
 ---
 
 ## Requirements
 
-Create a `requirements.txt` with:
+Create a `requirements.txt` file with the following dependencies:
 
-```
+```txt
 Django>=4.0
 scikit-learn
 nltk
 numpy
 python-docx
 PyPDF2
+spacy
 ```
 
-Install with:
+Install using:
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -131,45 +179,77 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Go to the home page
-2. Paste your resume text or upload a file
-3. Paste the job description you are targeting
-4. Click **Analyze**
-5. View your match score and improvement suggestions
+1. Open the application in your browser
+2. Upload your resume file or paste resume text
+3. Select your target job role
+4. Click the **Analyze** button
+5. View:
+
+   * Resume match score
+   * Missing skills
+   * Suggested improvements
+   * Role compatibility analysis
 
 ---
 
 ## ML Approach
 
 ### TF-IDF Vectorization
-Converts resume and job description text into numerical vectors where each dimension represents the importance of a word relative to both documents.
+
+TF-IDF (Term Frequency–Inverse Document Frequency) converts resume text and role skill data into numerical vectors based on keyword importance.
 
 ### Cosine Similarity
-Measures the angle between the two vectors. A score of **1.0** means a perfect match, while **0.0** means no similarity at all.
 
+Cosine Similarity measures how closely the resume matches the selected role.
+
+```text
+Score = (Resume Vector · Role Vector) / (||Resume Vector|| × ||Role Vector||)
 ```
-Score = (Resume Vector · JD Vector) / (||Resume Vector|| × ||JD Vector||)
-```
+
+A higher score indicates better compatibility with the selected role.
+
+---
+
+## Key Functionalities
+
+### Resume Parsing
+
+Extracts text content from uploaded PDF and DOCX files.
+
+### Skill Matching
+
+Compares resume skills with predefined skills required for selected roles.
+
+### Missing Skill Detection
+
+Identifies important missing technologies or keywords.
+
+### Suggestion Generation
+
+Provides personalized recommendations to improve resume quality.
 
 ---
 
 ## Future Improvements
 
-- [ ] Support for PDF and DOCX file upload
-- [ ] Section-wise analysis (Skills, Experience, Education)
-- [ ] Export analysis report as PDF
-- [ ] User authentication and history tracking
-- [ ] Advanced NLP using BERT or transformer models
+* [ ] Add AI-based resume recommendations using BERT/Transformers
+* [ ] Role-wise interview question suggestions
+* [ ] Resume score visualization dashboard
+* [ ] User authentication and resume history
+* [ ] Export analysis report as PDF
+* [ ] ATS compatibility checking
+* [ ] Real-time job recommendation integration
 
 ---
 
 ## Author
 
-**Muchu**
-- GitHub: [@yourusername](https://github.com/yourusername)
+**Muchu Santhi Kumari**
+
+* GitHub: [@santhi1701](https://github.com/santhi1701)
 
 ---
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open-source and available under the MIT License.
