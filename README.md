@@ -1,4 +1,4 @@
-# AI Resume Analyzer
+# SkillWeaver - AI Resume Analyzer
 
 A Django web application that analyzes resumes against job descriptions using Natural Language Processing (NLP) and Machine Learning techniques to help job seekers improve their chances of landing interviews.
 
