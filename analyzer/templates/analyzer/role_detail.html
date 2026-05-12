@@ -1,0 +1,80 @@
+{% extends 'analyzer/base.html' %}
+{% block title %}{{ role_name|title }} Resume Analyzer{% endblock %}
+
+{% block content %}
+<style>
+  .upload-section {
+    background: #fff;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: 50px auto;
+    transition: transform 0.3s ease;
+  }
+  .upload-section:hover {
+    transform: translateY(-5px);
+  }
+  .role-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .role-header h2 {
+    font-weight: 700;
+    color: #007bff;
+  }
+  .role-header p {
+    color: #555;
+  }
+  .form-control-file {
+    background: #f9f9f9;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .form-control-file:hover {
+    background: #e3f2fd;
+  }
+  .btn-analyze {
+    background: linear-gradient(to right, #007bff, #00c853);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    transition: 0.3s;
+  }
+  .btn-analyze:hover {
+    opacity: 0.9;
+  }
+</style>
+
+<div class="upload-section">
+  <div class="role-header">
+    <h2>{{ role_name|title }}</h2>
+    <p>Upload your resume and see how well it matches with the {{ role_name|title }} role.</p>
+  </div>
+
+  <form action="{% url 'analyze_resume' role_name=role_name %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group mb-4">
+      <input type="file" name="resume" accept=".pdf,.docx" required class="form-control-file w-100">
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-analyze">Analyze Resume</button>
+    </div>
+  </form>
+
+  {% if result %}
+  <div class="mt-5 p-4 rounded" style="background-color: #f1f8e9;">
+    <h5 class="text-success"><i class="fas fa-check-circle me-2"></i>Analysis Result</h5>
+    <p><strong>Match Score:</strong> {{ result.score }}%</p>
+    <p><strong>Matched Skills:</strong> {{ result.skills }}</p>
+    <p><strong>Suggestions:</strong> {{ result.suggestions }}</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

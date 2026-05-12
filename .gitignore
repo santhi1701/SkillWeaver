@@ -1,0 +1,20 @@
+# Virtual environment folder
+venv/
+.venv/
+
+# Django/Python specific
+__pycache__/
+*.pyc
+
+# Local database
+db.sqlite3
+
+# Security/Environment files
+.env
+
+# Static files collected by Django
+staticfiles/
+
+# VSCode / Editor settings (optional but recommended)
+.vscode/
+.idea/

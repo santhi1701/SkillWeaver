@@ -1,0 +1,72 @@
+{% extends 'analyzer/base.html' %}
+{% block title %}Profile - MatchMyResume{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Card Container -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fas fa-user me-2"></i>My Profile</h4>
+                    <button class="btn btn-light btn-sm" id="editBtn">
+                        <i class="fas fa-edit me-1"></i>Edit Info
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <!-- Display User Info -->
+                    <div id="viewProfile">
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+                        <!-- Add more fields if required -->
+                    </div>
+
+                    <!-- Edit Form (hidden initially) -->
+                    <div id="editProfile" style="display:none;">
+                        <form method="post" action="{% url 'profile' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+                            </div>
+                            <button type="submit" class="btn btn-success w-100"><i class="fas fa-save me-1"></i>Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+           
+
+<!-- JS to toggle edit form -->
+<script>
+    const editBtn = document.getElementById('editBtn');
+    const viewProfile = document.getElementById('viewProfile');
+    const editProfile = document.getElementById('editProfile');
+
+    editBtn.addEventListener('click', () => {
+        if (editProfile.style.display === 'none') {
+            editProfile.style.display = 'block';
+            viewProfile.style.display = 'none';
+            editBtn.innerHTML = '<i class="fas fa-times me-1"></i>Cancel';
+            editBtn.classList.remove('btn-light');
+            editBtn.classList.add('btn-danger');
+        } else {
+            editProfile.style.display = 'none';
+            viewProfile.style.display = 'block';
+            editBtn.innerHTML = '<i class="fas fa-edit me-1"></i>Edit Info';
+            editBtn.classList.remove('btn-danger');
+            editBtn.classList.add('btn-light');
+        }
+    });
+</script>
+{% endblock %}

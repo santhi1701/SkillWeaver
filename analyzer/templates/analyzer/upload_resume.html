@@ -1,0 +1,20 @@
+{% extends 'analyzer/base.html' %}
+{% block title %}Upload Resume{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width:600px;">
+  <div class="card shadow-lg p-4 border-0 rounded-4">
+    <h3 class="text-center text-primary mb-3">
+      Upload Your Resume for {{ role }}
+    </h3>
+    <form action="{% url 'analyze_resume' role|slugify %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="resume" class="form-label fw-bold">Choose File</label>
+        <input type="file" name="resume" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Analyze Resume</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
